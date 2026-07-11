@@ -38,6 +38,18 @@
         <span class="text-muted">Uploaded on</span>
         <span>{{ $report->created_at->format('M d, Y \a\t g:i A') }}</span>
       </li>
+      <li class="d-flex justify-content-between py-2">
+        <span class="text-muted">Notified</span>
+        <span class="text-end">
+          @if ($report->notify_all)
+            <span class="badge bg-label-info">All system users</span>
+          @elseif ($report->recipients->isNotEmpty())
+            {{ $report->recipients->pluck('name')->implode(', ') }}
+          @else
+            <span class="text-muted">No recipients selected</span>
+          @endif
+        </span>
+      </li>
     </ul>
     @if ($report->description)
       <p class="mt-3 mb-0">{{ $report->description }}</p>

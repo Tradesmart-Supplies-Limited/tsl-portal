@@ -6,6 +6,9 @@
 <div class="authentication-inner" style="max-width: 640px;">
   <div class="card">
     <div class="card-body">
+      <div class="text-center mb-4">
+        <img src="http://misc.tradesmartzm.com/logo.png" alt="Logo" style="max-width:70px; height:auto;" />
+      </div>
       <div class="d-flex justify-content-between align-items-start mb-3">
         <div>
           <h5 class="mb-1">{{ $complaint->subject }}</h5>

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ComplaintNotificationMail;
+use App\Mail\ComplaintSubmittedMail;
 use App\Models\Client;
 use App\Models\Complaint;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 /**
@@ -46,6 +49,15 @@ class ClientComplaintController extends Controller
             'description' => $data['description'],
             'status' => 'open',
         ]);
+
+        // Confirmation email to the client, with their tracking number.
+        Mail::to($complaint->email)->send(new ComplaintSubmittedMail($complaint));
+
+        // Internal notification to the configured distribution list.
+        $notifyEmails = config('portal.complaint_notification_emails');
+        if (! empty($notifyEmails)) {
+            Mail::to($notifyEmails)->send(new ComplaintNotificationMail($complaint));
+        }
 
         return redirect()
             ->route('complaints.public.confirmation', $complaint->ticket_number)

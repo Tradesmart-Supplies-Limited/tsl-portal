@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientComplaintController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ClientDocumentController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReportController;
@@ -55,6 +56,11 @@ Route::middleware(['auth'])->group(function () {
 
     // Client database CRUD
     Route::resource('clients', ClientController::class);
+
+    // Client documents (contracts, agreements, etc.) attached to a client profile
+    Route::post('clients/{client}/documents', [ClientDocumentController::class, 'store'])->name('client-documents.store');
+    Route::get('client-documents/{document}/download', [ClientDocumentController::class, 'download'])->name('client-documents.download');
+    Route::delete('client-documents/{document}', [ClientDocumentController::class, 'destroy'])->name('client-documents.destroy');
 
     // Reports (upload / download / delete against a client)
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');

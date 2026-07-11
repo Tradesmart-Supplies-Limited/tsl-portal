@@ -61,7 +61,7 @@
           </li>
           <li><div class="dropdown-divider"></div></li>
           <li>
-            <form method="POST" action="#">
+            <form method="POST" action="{{ route('logout') }}">
               @csrf
               <button type="submit" class="dropdown-item">
                 <i class="bx bx-power-off me-2"></i>

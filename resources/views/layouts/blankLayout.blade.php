@@ -43,11 +43,6 @@
 <body>
   <div class="container-xxl">
     <div class="authentication-wrapper authentication-basic container-p-y">
-      <div class="text-center mb-4">
-        <a href="{{ route('dashboard') }}" class="app-brand-link gap-2 d-inline-flex align-items-center">
-          <span class="app-brand-text fw-bolder fs-3">{{ config('app.name', 'Client Portal') }}</span>
-        </a>
-      </div>
 
       @yield('content')
     </div>

@@ -44,6 +44,11 @@ class User extends Authenticatable
         return $this->hasMany(Complaint::class, 'assigned_to');
     }
 
+    public function reportsReceived(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Report::class, 'report_recipients')->withTimestamps();
+    }
+
     public function isAdmin(): bool
     {
         return $this->role === 'admin';

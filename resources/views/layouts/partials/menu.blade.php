@@ -2,17 +2,9 @@
   <div class="app-brand demo">
     <a href="{{ route('dashboard') }}" class="app-brand-link">
       <span class="app-brand-logo demo">
-        <svg width="25" viewBox="0 0 25 42" version="1.1" xmlns="http://www.w3.org/2000/svg">
-          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-            <g transform="translate(-27.000000, -15.000000)">
-              <g transform="translate(27.000000, 15.000000)">
-                <path d="M13.7918663,0.358365126 L3.39788168,7.44174259 C0.566865006,9.69408886 -0.379795268,12.4788597 0.557900856,15.7960551 L18.6192054,7.984237 L13.7918663,0.358365126 Z" fill="#696cff"></path>
-              </g>
-            </g>
-          </g>
-        </svg>
+        <img src="http://misc.tradesmartzm.com/logo.png" alt="TSL - Portal" width="65" />
       </span>
-      <span class="app-brand-text demo menu-text fw-bolder ms-2">{{ config('app.name', 'Client Portal') }}</span>
+      <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2 text-secondary text-uppercase">TSL - P<span class="text-lowercase">ortal</span></span> -->
     </a>
 
     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">

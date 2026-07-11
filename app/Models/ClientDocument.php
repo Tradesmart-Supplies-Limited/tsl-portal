@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Report extends Model
+class ClientDocument extends Model
 {
     use HasFactory;
 
@@ -15,16 +14,16 @@ class Report extends Model
         'client_id',
         'uploaded_by',
         'title',
-        'description',
-        'notify_all',
+        'type',
         'file_path',
         'file_name',
         'file_type',
         'file_size',
+        'expiry_date',
     ];
 
     protected $casts = [
-        'notify_all' => 'boolean',
+        'expiry_date' => 'date',
     ];
 
     public function client(): BelongsTo
@@ -35,24 +34,6 @@ class Report extends Model
     public function uploader(): BelongsTo
     {
         return $this->belongsTo(User::class, 'uploaded_by');
-    }
-
-    /**
-     * Specific users chosen as recipients (ignored when notify_all is true).
-     */
-    public function recipients(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'report_recipients')
-            ->withPivot('notified_at')
-            ->withTimestamps();
-    }
-
-    /**
-     * Resolve the actual list of users who should be emailed for this report.
-     */
-    public function resolveRecipients()
-    {
-        return $this->notify_all ? User::all() : $this->recipients()->get();
     }
 
     public function getHumanFileSizeAttribute(): string
@@ -68,5 +49,15 @@ class Report extends Model
         }
 
         return $bytes . ' B';
+    }
+
+    public function isExpiringSoon(): bool
+    {
+        return $this->expiry_date && $this->expiry_date->isFuture() && $this->expiry_date->diffInDays(now()) <= 30;
+    }
+
+    public function isExpired(): bool
+    {
+        return $this->expiry_date && $this->expiry_date->isPast();
     }
 }

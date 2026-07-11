@@ -7,6 +7,9 @@
   <div class="card">
     <div class="card-body">
       <div class="text-center mb-4">
+        <img src="http://misc.tradesmartzm.com/logo.png" alt="Logo" style="max-width:70px; height:auto;" />
+      </div>
+      <div class="text-center mb-4">
         <h4 class="mb-1">Track Your Complaint</h4>
         <p class="text-muted mb-0">Enter your ticket number and email to see the latest status.</p>
       </div>
