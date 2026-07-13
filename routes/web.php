@@ -55,6 +55,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Client database CRUD
+    Route::get('clients/export', [ClientController::class, 'export'])->name('clients.export');
+    Route::delete('clients/bulk-destroy', [ClientController::class, 'bulkDestroy'])->name('clients.bulk-destroy');
     Route::resource('clients', ClientController::class);
 
     // Client documents (contracts, agreements, etc.) attached to a client profile
