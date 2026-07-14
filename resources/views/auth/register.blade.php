@@ -1,8 +1,8 @@
 @extends('layouts.blankLayout')
 
-@section('title', 'Create Account')
+@section('title', 'Tradesmart Client Portal - Create Account')
 
-@section('description', 'Set up your account on the Tradesmart Client Portal to access all your client information and manage your relationships.')
+@section('description', 'Set up your account on the Tradesmart Client Portal to access all your client information and manage Client Complaints & Reports.')
 
 @section('content')
 <div class="authentication-inner" style="max-width: 440px;">

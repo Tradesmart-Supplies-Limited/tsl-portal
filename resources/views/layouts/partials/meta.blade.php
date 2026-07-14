@@ -2,7 +2,7 @@
 <meta name="description" content="@yield('description', 'Tradesmart Client Portal is a centralized platform for managing client information, tracking customer complaints, monitoring service requests, and generating business reports. Streamline client relationship management with secure access to customer data and insights.')">
 
 <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
-<meta property="og:type" content="website">
+<meta property="og:type" content="website"
 <meta property="og:title" content="@yield('title', config('app.name', 'Tradesmart Client Portal'))">
 <meta property="og:description" content="@yield('description', 'A centralized client management platform for maintaining client records, handling complaints, tracking service interactions, and generating actionable business reports.')">
 <meta property="og:url" content="{{ url()->current() }}">

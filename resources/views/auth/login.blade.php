@@ -1,7 +1,7 @@
 @extends('layouts.blankLayout')
 
-@section('title', 'Log In')
-@section('description', 'Log in to your Tradesmart Client Portal account to access your client information and manage your relationships.')
+@section('title', 'Tradesmart Client Portal - Log In')
+@section('description', 'Access your client information and manage Complaints & Reports.')
 
 @section('content')
 <div class="authentication-inner" style="max-width: 440px;">
