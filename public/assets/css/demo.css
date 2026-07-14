@@ -105,3 +105,36 @@
   text-align: center;
   margin-top: 1rem;
 }
+
+
+#globalLoadingOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(33, 33, 33, 0.55);
+    backdrop-filter: blur(1px);
+    z-index: 20000; /* above navbar, modals, dropdowns */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease;
+  }
+
+  #globalLoadingOverlay.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  #globalLoadingOverlay .global-loading-box {
+    background: #fff;
+    border-radius: 0.5rem;
+    padding: 2rem 2.5rem;
+    text-align: center;
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.25);
+  }
+
+  #globalLoadingOverlay .global-loading-text {
+    color: #566a7f;
+    font-weight: 500;
+  }
