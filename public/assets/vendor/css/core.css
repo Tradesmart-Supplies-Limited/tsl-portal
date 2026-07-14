@@ -1,7 +1,7 @@
 @charset "UTF-8";
 :root {
   --bs-blue: #007bff;
-  --bs-indigo: #6610f2;
+  --bs-indigo: #84C442;
   --bs-purple: #4EACDE;
   --bs-pink: #e83e8c;
   --bs-red: #ff3e1d;
@@ -228,7 +228,7 @@ a {
   text-decoration: none;
 }
 a:hover {
-  color: #5f61e6;
+  color: #84C442;
 }
 
 a:not([href]):not([class]), a:not([href]):not([class]):hover {
@@ -2796,7 +2796,7 @@ textarea.form-control-lg {
   text-decoration: none;
 }
 .btn-link:hover {
-  color: #5f61e6;
+  color: #84C442;
 }
 .btn-link:disabled, .btn-link.disabled {
   color: rgba(67, 89, 113, 0.6);
@@ -3278,7 +3278,7 @@ textarea.form-control-lg {
   }
 }
 .nav-link:hover, .nav-link:focus {
-  color: #5f61e6;
+  color: #84C442;
 }
 .nav-link.disabled {
   color: #c7cdd4;
@@ -5561,7 +5561,7 @@ textarea.form-control-lg {
   color: #4EACDE;
 }
 .link-primary:hover, .link-primary:focus {
-  color: #5f61e6;
+  color: #84C442;
 }
 
 .link-secondary {

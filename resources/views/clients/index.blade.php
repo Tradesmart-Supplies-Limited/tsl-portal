@@ -221,7 +221,7 @@
             <td>
               <div class="d-flex align-items-center">
                 <img
-                  src="{{ $client->logo_url ?: 'https://ui-avatars.com/api/?name=' . urlencode($client->name) . '&background=696cff&color=fff' }}"
+                  src="{{ $client->logo_url ?: 'https://ui-avatars.com/api/?name=' . urlencode($client->name) . '&background=84C442&color=fff' }}"
                   alt="{{ $client->name }}"
                   class="rounded me-2"
                   style="width: 36px; height: 36px; object-fit: cover;"
