@@ -1,6 +1,7 @@
 @extends('layouts.blankLayout')
 
 @section('title', 'Track Your Complaint')
+@section('description', 'Check the status of your complaint and view any updates from our support team.')
 
 @section('content')
 <div class="authentication-inner" style="max-width: 480px;">

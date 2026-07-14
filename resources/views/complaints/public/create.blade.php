@@ -1,6 +1,7 @@
 @extends('layouts.blankLayout')
 
 @section('title', 'Submit a Complaint')
+@section('description', 'Submit a complaint about your experience with services from Tradesmart Supplies Limited. Provide details of your complaint, and our team will review and respond promptly to address your concerns.')
 
 @section('content')
 <div class="authentication-inner" style="max-width: 640px;">

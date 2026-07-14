@@ -2,6 +2,8 @@
 
 @section('title', 'Create Account')
 
+@section('description', 'Set up your account on the Tradesmart Client Portal to access all your client information and manage your relationships.')
+
 @section('content')
 <div class="authentication-inner" style="max-width: 440px;">
   <div class="card">
