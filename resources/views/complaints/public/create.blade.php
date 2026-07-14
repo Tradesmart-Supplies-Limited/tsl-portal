@@ -10,7 +10,6 @@
         <img src="http://misc.tradesmartzm.com/logo.png" alt="Logo" style="max-width:70px; height:auto;" />
       </div>
           <div class="text-center mb-4">
-
             <h4 class="mb-1">Submit a Complaint</h4>
             <p class="text-muted mb-0">Let us know what went wrong — we'll follow up by email.</p>
           </div>
@@ -25,7 +24,7 @@
             </div>
           @endif
 
-          <form method="POST" action="{{ route('complaints.public.store') }}">
+          <form method="POST" action="{{ route('complaints.public.store') }}" enctype="multipart/form-data">
             @csrf
 
             <div class="row g-3">
@@ -68,6 +67,14 @@
               <div class="col-12">
                 <label class="form-label" for="description">What happened? <span class="text-danger">*</span></label>
                 <textarea id="description" name="description" rows="5" class="form-control" required>{{ old('description') }}</textarea>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label" for="attachment">Supporting document (optional)</label>
+                <input type="file" id="attachment" name="attachment" class="form-control @error('attachment') is-invalid @enderror"
+                       accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.heic,.xlsx,.xls,.txt">
+                <small class="text-muted">A screenshot, invoice, or document that helps explain the issue. PDF, Word, Excel, or image — up to 10MB.</small>
+                @error('attachment') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
               </div>
             </div>
 

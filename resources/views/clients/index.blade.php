@@ -16,6 +16,9 @@
     <small class="text-muted">Manage every client record on file</small>
   </div>
   <div class="d-flex gap-2">
+    <a href="{{ route('clients.import.form') }}" class="btn btn-outline-secondary">
+      <i class="bx bx-upload me-1"></i> Import
+    </a>
     <a href="{{ route('clients.export', request()->query()) }}" class="btn btn-outline-secondary">
       <i class="bx bx-export me-1"></i> Export CSV
     </a>
@@ -28,6 +31,18 @@
 @if (session('success'))
   <div class="alert alert-success alert-dismissible" role="alert">
     {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@endif
+
+@if (session('import_errors') && count(session('import_errors')) > 0)
+  <div class="alert alert-warning alert-dismissible" role="alert">
+    <strong>Some rows needed attention during import:</strong>
+    <ul class="mb-0 mt-2 ps-3">
+      @foreach (session('import_errors') as $error)
+        <li>{{ $error }}</li>
+      @endforeach
+    </ul>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
 @endif

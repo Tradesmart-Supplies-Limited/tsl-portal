@@ -25,6 +25,14 @@
 
       <p class="text-muted">{{ $complaint->description }}</p>
 
+      @if ($complaint->hasAttachment())
+        <p class="mb-3">
+          <i class="bx bx-paperclip me-1"></i>
+          Attached: <a href="{{ route('complaints.public.attachment', $complaint) }}">{{ $complaint->attachment_name }}</a>
+          <small class="text-muted">({{ $complaint->human_attachment_size }})</small>
+        </p>
+      @endif
+
       <hr>
 
       <h6 class="mb-3">Updates</h6>

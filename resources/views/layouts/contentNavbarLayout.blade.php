@@ -70,6 +70,10 @@
 
   <script src="{{ asset('assets/js/main.js') }}"></script>
 
+<script src="{{ asset('assets/js/loading-buttons.js') }}"></script>
+
   @yield('page-script')
+
+
 </body>
 </html>

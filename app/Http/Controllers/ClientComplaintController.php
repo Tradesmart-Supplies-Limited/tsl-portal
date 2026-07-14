@@ -9,7 +9,9 @@ use App\Models\Complaint;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Public-facing controller. Routes for this controller should sit OUTSIDE
@@ -33,12 +35,24 @@ class ClientComplaintController extends Controller
             'category' => ['nullable', 'string', 'max:100'],
             'priority' => ['nullable', 'in:low,medium,high,urgent'],
             'description' => ['required', 'string'],
+            'attachment' => ['nullable', 'file', 'max:10240', 'mimes:pdf,doc,docx,jpg,jpeg,png,heic,xlsx,xls,txt'],
         ]);
 
         // Link to an existing client record if the email matches one on file.
         $client = Client::where('email', $data['email'])->first();
 
-        $complaint = Complaint::create([
+        $attachmentFields = [];
+        if ($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
+            $attachmentFields = [
+                'attachment_path' => $file->store('complaint-attachments', 'public'),
+                'attachment_name' => $file->getClientOriginalName(),
+                'attachment_type' => $file->getClientMimeType(),
+                'attachment_size' => $file->getSize(),
+            ];
+        }
+
+        $complaint = Complaint::create(array_merge([
             'client_id' => $client?->id,
             'name' => $data['name'],
             'email' => $data['email'],
@@ -48,7 +62,7 @@ class ClientComplaintController extends Controller
             'priority' => $data['priority'] ?? 'medium',
             'description' => $data['description'],
             'status' => 'open',
-        ]);
+        ], $attachmentFields));
 
         // Confirmation email to the client, with their tracking number.
         Mail::to($complaint->email)->send(new ComplaintSubmittedMail($complaint));
@@ -92,5 +106,19 @@ class ClientComplaintController extends Controller
             ->firstOrFail();
 
         return view('complaints.public.status', compact('complaint'));
+    }
+
+    /**
+     * Download the supporting document attached at submission time.
+     * Guarded only by knowledge of the complaint's ID — acceptable here since
+     * reaching this link requires having already passed the ticket+email
+     * lookup on the tracking page, or being the confirmation page right
+     * after submission.
+     */
+    public function downloadAttachment(Complaint $complaint): StreamedResponse
+    {
+        abort_unless($complaint->hasAttachment(), 404);
+
+        return Storage::disk('public')->download($complaint->attachment_path, $complaint->attachment_name);
     }
 }

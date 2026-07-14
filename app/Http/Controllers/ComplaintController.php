@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ComplaintReplyMail;
+use App\Mail\ComplaintStatusUpdatedMail;
 use App\Models\Complaint;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ComplaintController extends Controller
 {
@@ -43,6 +48,7 @@ class ComplaintController extends Controller
 
     /**
      * Update status / priority / assignment from the internal view.
+     * Emails the client whenever the status actually changes.
      */
     public function update(Request $request, Complaint $complaint): RedirectResponse
     {
@@ -52,9 +58,15 @@ class ComplaintController extends Controller
             'assigned_to' => ['nullable', 'exists:users,id'],
         ]);
 
+        $previousStatus = $complaint->status;
+
         $data['resolved_at'] = $data['status'] === 'resolved' ? now() : $complaint->resolved_at;
 
         $complaint->update($data);
+
+        if ($previousStatus !== $complaint->status) {
+            Mail::to($complaint->email)->send(new ComplaintStatusUpdatedMail($complaint, $previousStatus));
+        }
 
         return redirect()
             ->route('complaints.show', $complaint)
@@ -63,6 +75,7 @@ class ComplaintController extends Controller
 
     /**
      * Staff posting a reply (visible to client) or an internal note.
+     * Only non-internal replies are emailed to the client.
      */
     public function reply(Request $request, Complaint $complaint): RedirectResponse
     {
@@ -71,10 +84,12 @@ class ComplaintController extends Controller
             'is_internal_note' => ['nullable', 'boolean'],
         ]);
 
-        $complaint->replies()->create([
+        $isInternal = $request->boolean('is_internal_note');
+
+        $reply = $complaint->replies()->create([
             'user_id' => $request->user()->id,
             'message' => $data['message'],
-            'is_internal_note' => $request->boolean('is_internal_note'),
+            'is_internal_note' => $isInternal,
         ]);
 
         // Move a fresh complaint into "in progress" once staff engages.
@@ -82,9 +97,20 @@ class ComplaintController extends Controller
             $complaint->update(['status' => 'in_progress']);
         }
 
+        if (! $isInternal) {
+            Mail::to($complaint->email)->send(new ComplaintReplyMail($reply));
+        }
+
         return redirect()
             ->route('complaints.show', $complaint)
-            ->with('success', 'Reply posted.');
+            ->with('success', $isInternal ? 'Internal note added.' : 'Reply posted and client notified.');
+    }
+
+    public function downloadAttachment(Complaint $complaint): StreamedResponse
+    {
+        abort_unless($complaint->hasAttachment(), 404);
+
+        return Storage::disk('public')->download($complaint->attachment_path, $complaint->attachment_name);
     }
 
     public function destroy(Complaint $complaint): RedirectResponse

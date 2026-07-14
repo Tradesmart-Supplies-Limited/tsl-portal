@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientComplaintController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientDocumentController;
+use App\Http\Controllers\ClientImportController;
 use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReportController;
@@ -43,6 +44,7 @@ Route::prefix('complaints')->name('complaints.public.')->group(function () {
     Route::get('/submitted/{ticketNumber}', [ClientComplaintController::class, 'confirmation'])->name('confirmation');
     Route::get('/track', [ClientComplaintController::class, 'trackForm'])->name('track.form');
     Route::post('/track', [ClientComplaintController::class, 'track'])->name('track');
+    Route::get('/attachment/{complaint}', [ClientComplaintController::class, 'downloadAttachment'])->name('attachment');
 });
 
 /*
@@ -57,6 +59,9 @@ Route::middleware(['auth'])->group(function () {
     // Client database CRUD
     Route::get('clients/export', [ClientController::class, 'export'])->name('clients.export');
     Route::delete('clients/bulk-destroy', [ClientController::class, 'bulkDestroy'])->name('clients.bulk-destroy');
+    Route::get('clients/import', [ClientImportController::class, 'form'])->name('clients.import.form');
+    Route::post('clients/import', [ClientImportController::class, 'import'])->name('clients.import');
+    Route::get('clients/import/sample', [ClientImportController::class, 'sample'])->name('clients.import.sample');
     Route::resource('clients', ClientController::class);
 
     // Client documents (contracts, agreements, etc.) attached to a client profile
@@ -75,6 +80,7 @@ Route::middleware(['auth'])->group(function () {
     // Complaint center — staff view of everything clients submitted publicly
     Route::get('complaints', [ComplaintController::class, 'index'])->name('complaints.index');
     Route::get('complaints/{complaint}', [ComplaintController::class, 'show'])->name('complaints.show');
+    Route::get('complaints/{complaint}/attachment', [ComplaintController::class, 'downloadAttachment'])->name('complaints.attachment');
     Route::put('complaints/{complaint}', [ComplaintController::class, 'update'])->name('complaints.update');
     Route::post('complaints/{complaint}/reply', [ComplaintController::class, 'reply'])->name('complaints.reply');
     Route::delete('complaints/{complaint}', [ComplaintController::class, 'destroy'])->name('complaints.destroy');

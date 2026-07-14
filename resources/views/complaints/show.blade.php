@@ -25,6 +25,17 @@
       </div>
       <div class="card-body">
         <p class="mb-0">{{ $complaint->description }}</p>
+        @if ($complaint->hasAttachment())
+          <div class="mt-3 d-flex align-items-center gap-2">
+            <span class="avatar avatar-sm">
+              <span class="avatar-initial rounded bg-label-warning"><i class="bx bx-paperclip"></i></span>
+            </span>
+            <div>
+              <a href="{{ route('complaints.attachment', $complaint) }}" class="fw-semibold">{{ $complaint->attachment_name }}</a>
+              <small class="text-muted d-block">{{ $complaint->human_attachment_size }}</small>
+            </div>
+          </div>
+        @endif
       </div>
     </div>
 
